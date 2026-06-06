@@ -37,7 +37,10 @@ jobs:
           aws cloudformation deploy \
             --stack-name ALB-ASG-Julian-JuanJose \
             --template-file cloudformation/alb-asg.yml \
-            --capabilities CAPABILITY_NAMED_IAM
+            --parameter-overrides \
+            VpcId=vpc-058906242a9188962 \
+            PublicSubnet1=subnet-0c976733d21144853 \
+            PublicSubnet2=subnet-0db3197e6eae4c03d
 
       - name: Deploy Automation
         run: |
