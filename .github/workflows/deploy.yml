@@ -22,25 +22,25 @@ jobs:
       - name: Deploy Security
         run: |
           aws cloudformation deploy \
-            --stack-name Security-Julian-Vergel \
+            --stack-name Security-Julian-JuanJose \
             --template-file cloudformation/security.yml
 
       - name: Deploy EC2
         run: |
           aws cloudformation deploy \
-            --stack-name EC2-Julian-Vergel \
+            --stack-name EC2-Julian-JuanJose \
             --template-file cloudformation/ec2.yml \
             --parameter-overrides KeyPair=${{ secrets.KEYPAIR_NAME }}
 
       - name: Deploy ALB-ASG
         run: |
           aws cloudformation deploy \
-            --stack-name ALB-ASG-Julian-Vergel \
+            --stack-name ALB-ASG-Julian-JuanJose \
             --template-file cloudformation/alb-asg.yml \
             --capabilities CAPABILITY_NAMED_IAM
 
       - name: Deploy Automation
         run: |
           aws cloudformation deploy \
-            --stack-name Automation-Julian-Vergel \
+            --stack-name Automation-Julian-JuanJose \
             --template-file cloudformation/automation.yml
