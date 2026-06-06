@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: Automation Stack
+
+Parameters:
+
+  AutoScalingGroupName:
+    Type: String
+
+Resources:
+
+  ScaleUpMorning:
+
+    Type: AWS::AutoScaling::ScheduledAction
+
+    Properties:
+      AutoScalingGroupName: !Ref AutoScalingGroupName
+      DesiredCapacity: 2
+      Recurrence: "0 8 * * *"
+
+  ScaleUpAfternoon:
+
+    Type: AWS::AutoScaling::ScheduledAction
+
+    Properties:
+      AutoScalingGroupName: !Ref AutoScalingGroupName
+      DesiredCapacity: 2
+      Recurrence: "0 14 * * *"
+
+  ScaleDownNight:
+
+    Type: AWS::AutoScaling::ScheduledAction
+
+    Properties:
+      AutoScalingGroupName: !Ref AutoScalingGroupName
+      DesiredCapacity: 1
+      Recurrence: "0 20 * * *"
+
+  ScaleDownLate:
+
+    Type: AWS::AutoScaling::ScheduledAction
+
+    Properties:
+      AutoScalingGroupName: !Ref AutoScalingGroupName
+      DesiredCapacity: 1
+      Recurrence: "0 23 * * *"
