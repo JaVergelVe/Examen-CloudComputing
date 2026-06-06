@@ -30,7 +30,7 @@ jobs:
           aws cloudformation deploy \
             --stack-name EC2-Julian-Vergel \
             --template-file cloudformation/ec2.yml \
-            --parameter-overrides KeyPair=MiKeyPair
+            --parameter-overrides KeyPair=${{ secrets.KEYPAIR_NAME }}
 
       - name: Deploy ALB-ASG
         run: |
