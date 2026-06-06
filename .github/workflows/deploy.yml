@@ -1,0 +1,46 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  Deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy Security
+        run: |
+          aws cloudformation deploy \
+            --stack-name Security-Julian-Vergel \
+            --template-file cloudformation/security.yml
+
+      - name: Deploy EC2
+        run: |
+          aws cloudformation deploy \
+            --stack-name EC2-Julian-Vergel \
+            --template-file cloudformation/ec2.yml \
+            --parameter-overrides KeyPair=MiKeyPair
+
+      - name: Deploy ALB-ASG
+        run: |
+          aws cloudformation deploy \
+            --stack-name ALB-ASG-Julian-Vergel \
+            --template-file cloudformation/alb-asg.yml \
+            --capabilities CAPABILITY_NAMED_IAM
+
+      - name: Deploy Automation
+        run: |
+          aws cloudformation deploy \
+            --stack-name Automation-Julian-Vergel \
+            --template-file cloudformation/automation.yml
