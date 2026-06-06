@@ -42,8 +42,19 @@ jobs:
             PublicSubnet1=subnet-0c976733d21144853 \
             PublicSubnet2=subnet-0db3197e6eae4c03d
 
+      - name: Get ASG Name
+        run: |
+          ASG_NAME=$(aws cloudformation describe-stacks \
+            --stack-name ALB-ASG-Julian-JuanJose \
+            --query "Stacks[0].Outputs[?OutputKey=='ASGName'].OutputValue" \
+            --output text)
+
+          echo "ASG_NAME=$ASG_NAME" >> $GITHUB_ENV
+
       - name: Deploy Automation
         run: |
           aws cloudformation deploy \
             --stack-name Automation-Julian-JuanJose \
-            --template-file cloudformation/automation.yml
+            --template-file cloudformation/automation.yml \
+            --parameter-overrides \
+            AutoScalingGroupName=$ASG_NAME
